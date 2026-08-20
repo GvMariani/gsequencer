@@ -8,14 +8,14 @@
 
 Summary:	 Audio processing engine
 Name:	gsequencer
-Version: 9.0.24
+Version: 9.2.4
 Release:	1
 License:	GPLv3+ and AGPLv3+
 Group:	Sound
 Url:	 https://nongnu.org/gsequencer
 Source0:	 https://github.com/gsequencer/gsequencer/archive/refs/tags/%{version}/%{name}-%{version}.tar.gz
 Patch0:		gsequencer-3.8.10-drop-unknown-Werror-flags.patch
-Patch1:		gsequencer-3.8.10-fix-initialize-error-var.patch
+Patch1:		gsequencer-9.2.4-fix-initialize-error-var.patch
 BuildRequires:		autoconf
 BuildRequires:		automake
 BuildRequires:		chrpath
@@ -25,11 +25,11 @@ BuildRequires:		gettext-devel
 BuildRequires:		gstreamer1.0-plugins-base
 BuildRequires:		gstreamer1.0-plugins-good
 BuildRequires:		gtk-doc
-#BuildRequires:	libtool
+BuildRequires:		libtool
 BuildRequires:		libtool-base
 BuildRequires:		make
 BuildRequires:		python
-BuildRequires:		slibtool
+#BuildRequires:		slibtool
 BuildRequires:		xsltproc
 %if %{with check}
 BuildRequires:		cunit
@@ -159,6 +159,12 @@ Advanced Gtk+ Sequencer library development documentation.
 
 
 %build
+# Slibtool won't work with gsequencer 9.2.x
+ln -sf %{_bindir}/libtoolize slibtoolize
+export PATH=$PWD:$PATH
+export LIBTOOLIZE=%{_bindir}/libtoolize
+export LIBTOOL=%{_bindir}/libtool
+
 autoreconf -vfi
 export CXXFLAGS="%{optflags} -fPIE"
 export LDFLAGS="%{ldflags} -pie"
