@@ -1,21 +1,21 @@
 # Tests are useful only while updating the package
 %bcond_with	check
 
-%define	major	9
-%define libname	%mklibname ags
-%define oldlibname	%mklibname ags 8
-%define devname	%mklibname -d ags
+%define		major		9
+%define		libname		%mklibname ags
+%define		oldlibname	%mklibname ags 8
+%define		devname	%mklibname -d ags
 
 Summary:	 Audio processing engine
 Name:	gsequencer
-Version: 9.2.4
+Version: 9.4.8
 Release:	1
-License:	GPLv3+ and AGPLv3+
+License:	GPL-3.0-or-later and AGPL-3.0-or-later
 Group:	Sound
 Url:	 https://nongnu.org/gsequencer
 Source0:	 https://github.com/gsequencer/gsequencer/archive/refs/tags/%{version}/%{name}-%{version}.tar.gz
 Patch0:		gsequencer-3.8.10-drop-unknown-Werror-flags.patch
-Patch1:		gsequencer-9.2.4-fix-initialize-error-var.patch
+Patch1:		gsequencer-9.4.8-fix-FSF-address.patch
 BuildRequires:		autoconf
 BuildRequires:		automake
 BuildRequires:		chrpath
@@ -25,14 +25,15 @@ BuildRequires:		gettext-devel
 BuildRequires:		gstreamer1.0-plugins-base
 BuildRequires:		gstreamer1.0-plugins-good
 BuildRequires:		gtk-doc
-BuildRequires:		libtool
+#BuildRequires:		libtool
 BuildRequires:		libtool-base
 BuildRequires:		make
 BuildRequires:		python
-#BuildRequires:		slibtool
+BuildRequires:		slibtool
 BuildRequires:		xsltproc
 %if %{with check}
-BuildRequires:		cunit
+# Missing
+#BuildRequires:		cunit
 BuildRequires:		x11-server-xvfb
 %endif
 BuildRequires:		ladspa-devel
@@ -140,15 +141,15 @@ Advanced Gtk+ Sequencer library development files.
 
 #-----------------------------------------------------------------------------
 
-%package -n gsequencer-devel-doc
+%package -n %{name}-devel-doc
 Summary:  Advanced Gtk+ Sequencer library development documentation
 Group:	Books/Computer books
 BuildArch: noarch
 
-%description -n gsequencer-devel-doc
+%description -n %{name}-devel-doc
 Advanced Gtk+ Sequencer library development documentation.
 
-%files -n gsequencer-devel-doc
+%files -n %{name}-devel-doc
 %{_datadir}/gtk-doc/
 %{_datadir}/doc/libags-audio-doc/
 
@@ -159,16 +160,19 @@ Advanced Gtk+ Sequencer library development documentation.
 
 
 %build
-# Slibtool won't work with gsequencer 9.2.x
+%if 0
+# Slibtool won't work with gsequencer 9.4.x
 ln -sf %{_bindir}/libtoolize slibtoolize
 export PATH=$PWD:$PATH
 export LIBTOOLIZE=%{_bindir}/libtoolize
 export LIBTOOL=%{_bindir}/libtool
+%endif
 
 autoreconf -vfi
 export CXXFLAGS="%{optflags} -fPIE"
 export LDFLAGS="%{ldflags} -pie"
 export CPPFLAGS='-DAGS_CSS_FILENAME=\"/usr/share/gsequencer/styles/ags.css\" -DAGS_ANIMATION_FILENAME=\"/usr/share/gsequencer/images/gsequencer-800x450.png\" -DAGS_LOGO_FILENAME=\"/usr/share/gsequencer/images/ags.png\" -DAGS_LICENSE_FILENAME=\"/usr/share/licenses/gsequencer/COPYING\" -DAGS_ONLINE_HELP_START_FILENAME=\"file:///usr/share/doc/gsequencer/html/index.html\"'
+# Enabling vst3 support makes the build fail
 %configure HTMLHELP_XSL="/usr/share/sgml/docbook/xsl-stylesheets-1.79.2/htmlhelp/htmlhelp.xsl" \
 						--disable-upstream-gtk-doc \
 						--enable-introspection \
@@ -190,17 +194,6 @@ export CPPFLAGS='-DAGS_CSS_FILENAME=\"/usr/share/gsequencer/styles/ags.css\" -DA
 %make_install install-html-mkdir
 %make_install install-html-mkdir-links
 %make_install install-html
-
-%if 0
-chrpath --delete %{buildroot}%{_bindir}/%{name}
-chrpath --delete %{buildroot}%{_bindir}/midi2xml
-chrpath --delete %{buildroot}%{_libdir}/libags.so*
-chrpath --delete %{buildroot}%{_libdir}/libags_server.so*
-chrpath --delete %{buildroot}%{_libdir}/libags_thread.so*
-chrpath --delete %{buildroot}%{_libdir}/libags_gui.so*
-chrpath --delete %{buildroot}%{_libdir}/libags_audio.so*
-chrpath --delete %{buildroot}%{_libdir}/libgsequencer.so*
-%endif
 
 %find_lang %{name}
 
