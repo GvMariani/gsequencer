@@ -1,0 +1,28 @@
+diff -rupN gsequencer-9.4.8.old/ags/audio/ags_fluid_util.h gsequencer-9.4.8/ags/audio/ags_fluid_util.h
+--- gsequencer-9.4.8.old/ags/audio/ags_fluid_util.h	2026-09-25 22:11:45.000000000 +0200
++++ gsequencer-9.4.8/ags/audio/ags_fluid_util.h	2026-11-17 11:42:46.610154112 +0100
+@@ -32,8 +32,8 @@
+  *
+  * You should have received a copy of the GNU Lesser General Public
+  * License along with this library; if not, write to the Free
+- * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+- * 02110-1301, USA
++ * Software Foundation, Inc., 31 Milk Street, # 960789, Boston, MA
++ * 02196, USA
+  */
+ 
+ #ifndef __AGS_FLUID_UTIL_H__
+diff -rupN gsequencer-9.4.8.old/ags/audio/ags_noise_util.h gsequencer-9.4.8/ags/audio/ags_noise_util.h
+--- gsequencer-9.4.8.old/ags/audio/ags_noise_util.h	2026-09-25 22:11:45.000000000 +0200
++++ gsequencer-9.4.8/ags/audio/ags_noise_util.h	2026-11-17 11:46:45.782575291 +0100
+@@ -39,8 +39,8 @@
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this library; if not, write to the Free Software
+- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+- * 02111-1307, USA.
++ * Foundation, Inc., 31 Milk Street, # 960789, Boston, MA
++ * 02196, USA.
+  */
+ 
+ 
